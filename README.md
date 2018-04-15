@@ -14,6 +14,6 @@ To allow Jenkins to utilize your host Docker installation for spinning up contai
 
 `docker run -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock liatrio/alpine-jenkins`
 
-If needed it can be run in privilaged mode:
+If needed it can be run in privileged mode:
 
 `docker run -d --privileged -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock liatrio/alpine-jenkins`
