@@ -16,8 +16,8 @@ ARG JENKINS_VERSION=2.107.2-alpine
 #######################
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && /
-    grep -E 'archive.ubuntu.com|security.ubuntu.com' /etc/apt/sources.list.d/*  && /
+RUN sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \ 
+    grep -E 'archive.ubuntu.com|security.ubuntu.com' /etc/apt/sources.list.d/* && \ 
     apt-get update
 
 
