@@ -24,8 +24,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #            Very basic installations           #
 #################################################
 
-RUN apk -U add docker \
-    apk add --update shadow
+RUN apk -U add docker \ 
+    && apk add --update shadow
 
 	
 ############################################
