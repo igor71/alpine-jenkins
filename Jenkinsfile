@@ -6,11 +6,11 @@ pipeline {
                 sh 'docker build -t yi/jenkins-alpine:2.107 .'
             }
         }
-        stage('Save docker image as archive') {
+        stage('Push to DockerHub') {
             steps {
-          withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DockerHubPassword', usernameVariable: 'DockerHubUser')]) {
-          sh "docker login -u ${env.DockerHubUser} -p ${env.DockerHubPassword}"
-          sh 'docker push yi/jenkins-alpine:2.107'
+              withDockerRegistry([ credentialsId: "DockeHub", url: "https://hub.docker.com/r/igor71/jenkins-alpine/" ]) {
+                sh 'docker push yi/jenkins-alpine:2.107'
+              }
             }
         }
     }
