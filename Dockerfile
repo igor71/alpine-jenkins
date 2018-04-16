@@ -1,14 +1,15 @@
 # Jenkins Docker, Jenkins Running As Service
 
+FROM jenkins/jenkins:2.107.2-alpine
+
+LABEL MAINTAINER="Igor Rabkin<igor.rabkin@xiaoyi.com>"
+
+
 ##################################
 #            Set ARG's           #
 ##################################
 
 ARG JENKINS_BRANCH=2.107.2-alpine
-
-FROM jenkins/jenkins:${JENKINS_BRANCH}
-
-LABEL MAINTAINER="Igor Rabkin<igor.rabkin@xiaoyi.com>"
 
 #######################
 # Update repositories #
