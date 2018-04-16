@@ -11,16 +11,6 @@ LABEL MAINTAINER="Igor Rabkin<igor.rabkin@xiaoyi.com>"
 
 ARG JENKINS_VERSION=2.107.2-alpine
 
-#######################
-# Update repositories #
-#######################
-
-ARG DEBIAN_FRONTEND=noninteractive
-RUN sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \ 
-    grep -E 'archive.ubuntu.com|security.ubuntu.com' /etc/apt/sources.list.d/* && \ 
-    apt-get update
-
-
 #################################################
 #          Set Time Zone Asia/Jerusalem         #
 ################################################# 
@@ -29,68 +19,13 @@ ENV TZ=Asia/Jerusalem
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 
-################################################
-#     Basic desktop environment                #
-################################################
-
-# Locale, language
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
-RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
-locale-gen
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-
-
 #################################################
-#     Very basic installations                  #
+#            Very basic installations           #
 #################################################
 
-RUN apt-get install -y --no-install-recommends \
-    curl \
-    wget \
-    tree \
-    htop \
-    vim \
-	nano \
-	tzdata \
-	pv \
-	iputils-ping \
-    net-tools \
-	screen \
-	sudo \
-	mc && \
-    rm -rf /var/lib/apt/lists/*
-    
- RUN apk -U add docker
+RUN apk -U add docker
 
 	
-#################################################
-# PID 1 - signal forwarding and zombie fighting #
-#################################################
-
-# Add Tini
-ARG TINI_VERSION=v0.16.1
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
-
-
-##############################################################
-# Upgrade packages on image & Installing and Configuring SSH #
-##############################################################
-
-RUN apt-get -q update &&\
-    DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" --no-install-recommends openssh-server &&\
-    rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin 
-	
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-RUN mkdir /var/run/sshd 
-
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile	
-
-
 ########################################
 #    Setup jenkins user to the image   #
 ########################################
@@ -156,16 +91,3 @@ RUN echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/issue && cat /etc/motd' \
 \n "\
 	> /etc/motd
 
-#####################
-# Standard SSH Port #
-#####################
-
-EXPOSE 22
-
-#####################
-# Default commands  #
-#####################
-
-ENTRYPOINT ["/tini", "--"]
-CMD ["/usr/sbin/sshd", "-D"]
-RUN ["/bin/bash"]
