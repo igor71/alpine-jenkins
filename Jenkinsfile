@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Push to DockerHub') {
             steps {
-              withDockerRegistry([ credentialsId: "DockeHub", url: "https://hub.docker.com/r/igor71/jenkins-alpine/" ]) {
+              withDockerRegistry([ credentialsId: "DockeHub", url: "" ]) {
                 sh 'docker push yi/jenkins-alpine:2.107'
               }
             }
