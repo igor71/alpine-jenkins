@@ -9,14 +9,16 @@ LABEL MAINTAINER="Igor Rabkin<igor.rabkin@xiaoyi.com>"
 #            Set ARG's           #
 ##################################
 
-ARG JENKINS_BRANCH=2.107.2-alpine
+ARG JENKINS_VERSION=2.107.2-alpine
 
 #######################
 # Update repositories #
 #######################
 
-ARG DEBIAN_FRONTEND=noninteractive 
-RUN apt-get update
+ARG DEBIAN_FRONTEND=noninteractive
+RUN sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && /
+    grep -E 'archive.ubuntu.com|security.ubuntu.com' /etc/apt/sources.list.d/*  && /
+    apt-get update
 
 
 #################################################
@@ -147,7 +149,7 @@ RUN echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/issue && cat /etc/motd' \
 ||||||||||||||||||||||||||||||||||||||||||||||||||\n\
 |						 |\n\
 | Docker container running Ubuntu		 |\n\
-| with Jenkins ${TF_BRANCH} running in service mode |\n\
+| with Jenkins ${JENKINS_VERSION} running in service mode |\n\
 | with preinstalled most common plugins			 |\n\
 |					         |\n\
 ||||||||||||||||||||||||||||||||||||||||||||||||||\n\
