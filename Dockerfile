@@ -24,22 +24,17 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #            Very basic installations           #
 #################################################
 
-RUN apk -U add docker
+RUN apk -U add docker \
+    apk add --update shadow
 
 	
-########################################
-#    Setup jenkins user to the image   #
-########################################
-
-RUN useradd -m -d /home/jenkins -s /bin/bash jenkins &&\
-    echo "jenkins:jenkins" | chpasswd 
+############################################
+#    Configure jenkins user on the image   #
+############################################
 		
-# Add the users to sudoers group
+# Add jenkins user to sudoers group
 RUN echo "jenkins  ALL=(ALL)  NOPASSWD: ALL" >> /etc/sudoers
       
-# Set full permission for jenkins folder
-RUN chmod -R 777 /home/jenkins
-
 
 ###########################
 # Install Jenkins Plugins #
