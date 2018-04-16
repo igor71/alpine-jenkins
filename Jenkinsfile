@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Push to dockerhub') {
             steps {
-                sh 'docker push liatrio/jenkins-alpine:2.107'
+                sh 'docker save liatrio/jenkins-alpine:2.107 | pv | cat > /media/common/DOCKER_IMAGES/liatrio-jenkins-alpine-2.107.tar'
             }
         }
     }
