@@ -7,10 +7,10 @@ pipeline {
             }
         }
         stage('Push the image to DockerHub') {
-        /* Finally, push the image with two important things:
-         * First, the image name should contain userID from DockerHub
+        /* Finally, push the image considering two important things:
+         * First, the image name should contain userID from the existing DockerHub Repo
          * Second, credentialsId is username/password set containing the DockerHubID and the password for it,
-         * whis must be setup first in Jenkins >> Credentials >> global >> Add Credentials
+         * which must be setup first in Jenkins >> Credentials >> global >> Add Credentials
          * The key is the blank url parameter, which DockerRegistry translates into the appropriate DockerHub reference. */
             steps {
               withDockerRegistry([ credentialsId: "557b24c8-ef4d-4132-8de4-1890c68a3b82", url: "" ]) {
