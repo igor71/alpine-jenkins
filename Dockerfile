@@ -4,6 +4,7 @@ FROM jenkins/jenkins:2.107.2-alpine
 
 LABEL MAINTAINER="Igor Rabkin<igor.rabkin@xiaoyi.com>"
 
+USER root
 
 ##################################
 #            Set ARG's           #
